@@ -207,7 +207,8 @@ class Mytory_Markdown {
         }else{
             $post['post_title'] = FALSE;
         }
-        $post['post_content'] = preg_replace('/<h1>(.*)<\/h1>/', '', $content);
+        $content = preg_replace('/<h1>(.*)<\/h1>/', '', $content);
+        $post['post_content'] = preg_replace('/<p>{%\sgist\s([\w\d]+)\s([\w\d-.]+)\s(([\d-]+)\s)?(?:%}<\/p>)/', '[gist id="$1" file="$2" lines="$3"]', $content); // added by Ray
 
         return $post;
     }

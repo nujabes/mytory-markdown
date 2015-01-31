@@ -194,11 +194,12 @@ class Mytory_Markdown {
             return FALSE;
         }
 
-        if (!function_exists('Markdown')) {
-            include_once 'markdown.php';
+        if (!class_exists('Parsedown')) {
+            include_once 'Parsedown.php';
+            $Parsedown = new Parsedown();
         }
 
-        $content = Markdown($md_content);
+        $content = $Parsedown->text($md_content);
         $post = array();
         preg_match('/<h1>(.*)<\/h1>/', $content, $matches);
         if( ! empty($matches)){

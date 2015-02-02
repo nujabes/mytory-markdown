@@ -45,6 +45,19 @@
                 post_id: $('#post_ID').val()
             }, function(res){
 
+								var reg_date = /(201[0-9])(\d{2})(\d{2})(.*)\.md/;
+								if(reg_date.test(md_path)){
+									var match = reg_date.exec(md_path),
+										m_year = match[1],
+										m_month = match[2],
+										m_day = match[3],
+										filename = match[4];
+									var timestamp = $('#timestampdiv');
+										timestamp.find('select#mm').val(m_month);
+										timestamp.find('input#jj').val(m_day);
+										timestamp.find('input#aa').val(m_year);
+									$('.edit-timestamp').trigger('click');
+								}
                 if(res.error){
                     alert(res.error_msg);
                     return false;

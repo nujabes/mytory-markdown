@@ -42,6 +42,7 @@ class Mytory_Markdown {
     }
 
     function conditional_apply_markdown($query){
+    	if ($query->is_single()) {
         if($this->worked == true){
             return;
         }
@@ -55,6 +56,7 @@ class Mytory_Markdown {
         }
 
         $this->apply_markdown($query);
+      }
     }
 
     /**

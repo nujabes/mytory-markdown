@@ -201,7 +201,7 @@ class Mytory_Markdown {
             $Parsedown = new Parsedown();
         }
 
-        $content = $Parsedown->text($md_content);
+        $content = $Parsedown->setUrlsLinked(false)->text($md_content);
         $post = array();
         preg_match('/<h1>(.*)<\/h1>/', $content, $matches);
         if( ! empty($matches)){

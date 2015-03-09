@@ -25,7 +25,7 @@ class Mytory_Markdown {
         }else{
             add_filter('the_content', array(&$this, 'manual_update_button'));
         }
-        if(isset($_POST['mytory_markdown_manual_update']) 
+        if(isset($_POST['mytory_markdown_manual_update'])
                 && $_POST['mytory_markdown_manual_update'] == 'do'){
             add_action('pre_get_posts', array(&$this, 'apply_markdown'));
         }
@@ -38,11 +38,11 @@ class Mytory_Markdown {
     }
 
     function plugin_init() {
-        load_plugin_textdomain('mytory-markdown', false, dirname(plugin_basename( __FILE__ )) .'/lang' ); 
+        load_plugin_textdomain('mytory-markdown', false, dirname(plugin_basename( __FILE__ )) .'/lang' );
     }
 
     function conditional_apply_markdown($query){
-    	if ($query->is_single()) {
+    	if ($query->is_single() || $query->is_page() ) {
         if($this->worked == true){
             return;
         }
@@ -86,7 +86,7 @@ class Mytory_Markdown {
             $this->debug_msg[] = "This is page.";
 
         }else if($query->query_vars['pagename'] OR $query->query_vars['name']){
-            
+
             // page인 경우 OR slug 형태 주소인 경우.
             $slug = ($query->query_vars['pagename'] ? $query->query_vars['pagename'] : $query->query_vars['name']);
             $posts = get_posts(array('post_type' => 'any','name' => $slug));
@@ -269,7 +269,7 @@ class Mytory_Markdown {
 
         // If not single page, don't connect for prevent time-wasting.
         // return FALSE that means 'no need to save' to print HTML that is saved.
-        // 싱글 페이지가 아니라면 굳이 접속해서 시간낭비할 거 없이 
+        // 싱글 페이지가 아니라면 굳이 접속해서 시간낭비할 거 없이
         // 바로 저장된 HTML을 뿌려줄 수 있도록 save할 필요 없다고 신호를 준다.
         if (!is_single() AND !is_page()) {
             return FALSE;
@@ -457,7 +457,7 @@ class Mytory_Markdown {
         if ( ! current_user_can('activate_plugins') ){
             return;
         }
-        add_submenu_page('options-general.php', 'Mytory Markdown Setting', 'Mytory Markdown', 'activate_plugins', 'mytory-markdown', 
+        add_submenu_page('options-general.php', 'Mytory Markdown Setting', 'Mytory Markdown', 'activate_plugins', 'mytory-markdown',
                 array(&$this, 'print_setting_page'));
     }
 
@@ -467,8 +467,8 @@ class Mytory_Markdown {
 
     function manual_update_button($post_content){
         global $post;
-        
-        if ( ! current_user_can('edit_post', get_the_ID()) 
+
+        if ( ! current_user_can('edit_post', get_the_ID())
                 or ! get_post_meta($post->ID, 'mytory_md_path', true)) {
             return $post_content;
         }
